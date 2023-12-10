@@ -35,7 +35,7 @@ const part1 = (rawInput: string) => {
       const destination = +cat[0];
       const range = +cat[2];
 
-      if (source <= convert && convert <= source + range) {
+      if (source <= convert && convert < source + range) {
         const difference = convert - source;
         result = destination + difference;
       }
@@ -57,8 +57,6 @@ const part1 = (rawInput: string) => {
 
 const part2 = (rawInput: string) => {
   const input = parseInput(rawInput);
-
-  return;
 };
 
 run({
