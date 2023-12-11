@@ -39,9 +39,76 @@ const part1 = (rawInput: string) => {
 };
 
 const part2 = (rawInput: string) => {
-  const input = parseInput(rawInput);
+  const input = parseInput(rawInput)
+    .split("\n")
+    .map((row) => row.trim().split(""));
 
-  return;
+  const isAsterisk = (str: string) => {
+    return str === "*";
+  };
+
+  const gearValues: { values: number[]; position: number[] }[] = [];
+
+  for (let i = 0; i < input.length; i++) {
+    for (let j = 0; j < input[i].length; j++) {
+      if (!isNaN(+input[i][j])) {
+        let number = "";
+        let position: number[] = [];
+
+        if (i + 1 <= input.length - 1 && isAsterisk(input[i + 1][j - 1])) {
+          position = [i + 1, j - 1];
+        } else if (i - 1 >= 0 && isAsterisk(input[i - 1][j - 1])) {
+          position = [i - 1, j - 1];
+        } else if (isAsterisk(input[i][j - 1])) {
+          position = [i, j - 1];
+        }
+
+        while (!isNaN(+input[i][j])) {
+          number += input[i][j];
+
+          if (i + 1 <= input.length - 1 && isAsterisk(input[i + 1][j])) {
+            position = [i + 1, j];
+          } else if (i - 1 >= 0 && isAsterisk(input[i - 1][j])) {
+            position = [i - 1, j];
+          }
+
+          j += 1;
+        }
+
+        if (i + 1 <= input.length - 1 && isAsterisk(input[i + 1][j])) {
+          position = [i + 1, j];
+        } else if (i - 1 >= 0 && isAsterisk(input[i - 1][j])) {
+          position = [i - 1, j];
+        } else if (isAsterisk(input[i][j])) {
+          position = [i, j];
+        }
+
+        if (position.length === 2) {
+          const foundObj = gearValues.find(
+            (obj) =>
+              obj.position[0] === position[0] &&
+              obj.position[1] === position[1],
+          );
+
+          if (foundObj) {
+            foundObj.values.push(+number);
+          } else {
+            gearValues.push({
+              values: [+number],
+              position,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return gearValues
+    .filter((obj) => obj.values.length === 2)
+    .reduce(
+      (acc, obj) => acc + obj.values.reduce((prod, val) => prod * val, 1),
+      0,
+    );
 };
 
 run({
