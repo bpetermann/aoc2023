@@ -47,7 +47,7 @@ const part2 = (rawInput: string) => {
     return str === "*";
   };
 
-  const gearValues: { values: number[]; position: number[] }[] = [];
+  const gearArray: { values: number[]; position: number[] }[] = [];
 
   for (let i = 0; i < input.length; i++) {
     for (let j = 0; j < input[i].length; j++) {
@@ -84,7 +84,7 @@ const part2 = (rawInput: string) => {
         }
 
         if (position.length === 2) {
-          const foundObj = gearValues.find(
+          const foundObj = gearArray.find(
             (obj) =>
               obj.position[0] === position[0] &&
               obj.position[1] === position[1],
@@ -93,7 +93,7 @@ const part2 = (rawInput: string) => {
           if (foundObj) {
             foundObj.values.push(+number);
           } else {
-            gearValues.push({
+            gearArray.push({
               values: [+number],
               position,
             });
@@ -103,7 +103,7 @@ const part2 = (rawInput: string) => {
     }
   }
 
-  return gearValues
+  return gearArray
     .filter((obj) => obj.values.length === 2)
     .reduce(
       (acc, obj) => acc + obj.values.reduce((prod, val) => prod * val, 1),
