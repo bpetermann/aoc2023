@@ -4,14 +4,11 @@ const parseInput = (rawInput: string) => rawInput;
 
 const part1 = (rawInput: string) => {
   const input = parseInput(rawInput);
-
   const allSeeds = input.split("\n")[0].split("seeds:")[1].trim().split(" ");
 
-  let output = Infinity;
+  type Index = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-  type IndexRange = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-
-  const tableOfContents: { [k in IndexRange]: string } = {
+  const almanac: { [k in Index]: string } = {
     1: "seed-to-soil map:",
     2: "soil-to-fertilizer map:",
     3: "fertilizer-to-water map:",
@@ -21,35 +18,32 @@ const part1 = (rawInput: string) => {
     7: "humidity-to-location map:",
   };
 
-  const sourceToDestination = (index: IndexRange, convert: number): number => {
-    const category = input
-      .split(tableOfContents[index])[1]
-      .split(tableOfContents[(index + 1) as IndexRange] || "\n\n")[0]
+  const sourceToDestination = (index: Index, convert: number): number => {
+    const almanacEntry = input
+      .split(almanac[index])[1]
+      .split(almanac[(index + 1) as Index] || "\n\n")[0]
       .split("\n")
       .map((row) => row.split(" "));
 
-    let result: number = convert;
-
-    category.forEach((cat) => {
-      const source = +cat[1];
-      const destination = +cat[0];
-      const range = +cat[2];
-
+    for (const entry of almanacEntry) {
+      const [destination, source, range] = entry.map(Number);
       if (source <= convert && convert < source + range) {
         const difference = convert - source;
-        result = destination + difference;
+        return destination + difference;
       }
-    });
+    }
 
-    return result;
+    return convert;
   };
 
+  let output = Infinity;
+
   allSeeds.forEach((seed) => {
-    let start = +seed;
-    for (const key in tableOfContents) {
-      start = sourceToDestination(parseInt(key) as IndexRange, start);
+    let convert = +seed;
+    for (const key in almanac) {
+      convert = sourceToDestination(parseInt(key) as Index, convert);
     }
-    if (start < output) output = start;
+    if (convert < output) output = convert;
   });
 
   return output;

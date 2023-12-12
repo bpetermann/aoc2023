@@ -10,9 +10,7 @@ const part1 = (rawInput: string) => {
     .forEach((line) => {
       const first = line.split("").find((item) => !isNaN(+item));
       const last = line.split("").findLast((item) => !isNaN(+item));
-      if (first && last) {
-        output += +(first + last);
-      }
+      output += first && last ? +(first + last) : 0;
     });
 
   return output;
@@ -38,15 +36,10 @@ const part2 = (rawInput: string) => {
       for (const key in replacements) {
         clean = clean.replace(new RegExp(key, "gi"), replacements[key]);
       }
-      
+
       const first = clean.split("").find((item) => !isNaN(+item));
       const last = clean.split("").findLast((item) => !isNaN(+item));
-
-      if (first && last) {
-        return +(first + last);
-      } else {
-        return 0;
-      }
+      return first && last ? +(first + last) : 0;
     })
     .reduce((prev, cur) => prev + cur, 0);
 };

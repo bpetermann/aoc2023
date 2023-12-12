@@ -55,6 +55,7 @@ const part2 = (rawInput: string) => {
         let number = "";
         let position: number[] = [];
 
+        // check top left, left and bottom left of number
         if (i + 1 <= input.length - 1 && isAsterisk(input[i + 1][j - 1])) {
           position = [i + 1, j - 1];
         } else if (i - 1 >= 0 && isAsterisk(input[i - 1][j - 1])) {
@@ -75,6 +76,7 @@ const part2 = (rawInput: string) => {
           j += 1;
         }
 
+        // check top right, right and bottom right of number
         if (i + 1 <= input.length - 1 && isAsterisk(input[i + 1][j])) {
           position = [i + 1, j];
         } else if (i - 1 >= 0 && isAsterisk(input[i - 1][j])) {
@@ -83,21 +85,22 @@ const part2 = (rawInput: string) => {
           position = [i, j];
         }
 
-        if (position.length === 2) {
-          const foundObj = gearArray.find(
-            (obj) =>
-              obj.position[0] === position[0] &&
-              obj.position[1] === position[1],
-          );
+        if (position.length !== 2) {
+          continue;
+        }
 
-          if (foundObj) {
-            foundObj.values.push(+number);
-          } else {
-            gearArray.push({
-              values: [+number],
-              position,
-            });
-          }
+        const foundObj = gearArray.find(
+          (obj) =>
+            obj.position[0] === position[0] && obj.position[1] === position[1],
+        );
+
+        if (foundObj) {
+          foundObj.values.push(+number);
+        } else {
+          gearArray.push({
+            values: [+number],
+            position,
+          });
         }
       }
     }
