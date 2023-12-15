@@ -11,14 +11,14 @@
 
 <!--SOLUTIONS-->
 
-[![Day](https://badgen.net/badge/01/%E2%98%86%E2%98%86/green)](src/day01)
-[![Day](https://badgen.net/badge/02/%E2%98%86%E2%98%86/green)](src/day02)
-[![Day](https://badgen.net/badge/03/%E2%98%86%E2%98%86/green)](src/day03)
-[![Day](https://badgen.net/badge/04/%E2%98%86%E2%98%86/yellow)](src/day04)
-[![Day](https://badgen.net/badge/05/%E2%98%86%E2%98%86/yellow)](src/day05)
-[![Day](https://badgen.net/badge/06/%E2%98%85%E2%98%86/green)](src/day06)
+[![Day](https://badgen.net/badge/01/%E2%98%85%E2%98%85/green)](src/day01)
+[![Day](https://badgen.net/badge/02/%E2%98%85%E2%98%85/green)](src/day02)
+[![Day](https://badgen.net/badge/03/%E2%98%85%E2%98%85/green)](src/day03)
+[![Day](https://badgen.net/badge/04/%E2%98%85%E2%98%86/yellow)](src/day04)
+[![Day](https://badgen.net/badge/05/%E2%98%85%E2%98%86/yellow)](src/day05)
+[![Day](https://badgen.net/badge/06/%E2%98%85%E2%98%85/green)](src/day06)
 [![Day](https://badgen.net/badge/07/%E2%98%85%E2%98%85/green)](src/day07)
-![Day](https://badgen.net/badge/08/%E2%98%86%E2%98%86/gray)
+[![Day](https://badgen.net/badge/08/%E2%98%85%E2%98%86/yellow)](src/day08)
 ![Day](https://badgen.net/badge/09/%E2%98%86%E2%98%86/gray)
 ![Day](https://badgen.net/badge/10/%E2%98%86%E2%98%86/gray)
 ![Day](https://badgen.net/badge/11/%E2%98%86%E2%98%86/gray)
@@ -69,58 +69,58 @@ npm start 1
 
 ```
 Day 01
-Time part 1: 2.9049ms
-Time part 2: 9.719ms
-Both parts: 12.624ms
+Time part 1: 1.488ms
+Time part 2: 7.296ms
+Both parts: 8.784ms
 ```
 
 ```
 Day 02
-Time part 1: 2.766ms
-Time part 2: 2.575ms
-Both parts: 5.341ms
+Time part 1: 2.773ms
+Time part 2: 2.933ms
+Both parts: 5.707ms
 ```
 
 ```
 Day 03
-Time part 1: 14.402ms
-Time part 2: 10.911ms
-Both parts: 25.313ms
+Time part 1: 8.991ms
+Time part 2: 6.369ms
+Both parts: 15.361ms
 ```
 
 ```
 Day 04
-Time part 1: 3.183ms
+Time part 1: 1.88ms
 Time part 2: -
-Both parts: -
+Both parts: 1.88ms
 ```
 
 ```
 Day 05
-Time part 1: 6.837ms
+Time part 1: 3.981ms
 Time part 2: -
-Both parts: -
+Both parts: 3.981ms
 ```
 
 ```
 Day 06
-Time part 1: 0.284ms
-Time part 2: 101.362ms
-Both parts: 101.646ms
+Time part 1: 0.189ms
+Time part 2: 58.106ms
+Both parts: 58.295ms
 ```
 
 ```
 Day 07
-Time part 1: 315.147ms
-Time part 2: 268.036ms
-Both parts: 583.182ms
+Time part 1: 8.67ms
+Time part 2: 9.511ms
+Both parts: 18.18ms
 ```
 
 ```
 Day 08
-Time part 1: -
+Time part 1: 49.13ms
 Time part 2: -
-Both parts: -
+Both parts: 49.13ms
 ```
 
 ```
@@ -243,7 +243,8 @@ Both parts: -
 ```
 
 ```
-Total stars: 10/50
+Total stars: 13/50
+Total time: 161.316ms
 ```
 
 <!--/RESULTS-->
