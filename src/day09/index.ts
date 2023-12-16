@@ -22,9 +22,33 @@ const part1 = (rawInput: string) => {
 };
 
 const part2 = (rawInput: string) => {
-  const input = parseInput(rawInput);
+  const input = parseInput(rawInput)
+    .split("\n")
+    .map((line) => line.split(" ").map(Number));
 
-  return;
+  const extrapolateBackwards = (arr: number[]): number => {
+    const reversed = arr.reverse();
+
+    let leftMostHistory = reversed[0];
+    for (let i = 1; i < reversed.length; i++) {
+      leftMostHistory = reversed[i] - leftMostHistory;
+    }
+    return leftMostHistory;
+  };
+
+  return input
+    .map((line) => {
+      let beginningNumbers = [line[0]];
+      while (!line.every((i) => i === 0)) {
+        line = line
+          .map((_, index, self) => self[index + 1] - self[index])
+          .filter((i) => !isNaN(i));
+        beginningNumbers.push(line[0]);
+      }
+
+      return extrapolateBackwards(beginningNumbers);
+    })
+    .reduce((prev, cur) => prev + cur, 0);
 };
 
 run({
