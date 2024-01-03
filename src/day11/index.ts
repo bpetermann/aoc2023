@@ -3,24 +3,23 @@ import run from "aocrunner";
 const parseInput = (rawInput: string) => rawInput;
 
 const part1 = (rawInput: string) => {
-  const input = parseInput(rawInput)
-    .split("\n")
-    .map((i) => i.split(""));
-
-  const expandedInput: (number | string)[][] = [];
+  const input: (number | string)[][] = [];
   let galaxyCount = 0;
 
-  input.forEach((i) => {
-    !i.includes("#")
-      ? expandedInput.push(i, i)
-      : expandedInput.push(
-          i
-            .map((i) => (i === "." ? i : ++galaxyCount))
-            .flatMap((i, idx) =>
-              input.every((i) => i[idx] === ".") ? [i, i] : i,
-            ),
-        );
-  });
+  parseInput(rawInput)
+    .split("\n")
+    .map((i) => i.split(""))
+    .forEach((i, _, self) => {
+      !i.includes("#")
+        ? input.push(i, i)
+        : input.push(
+            i
+              .map((i) => (i === "." ? i : ++galaxyCount))
+              .flatMap((i, idx) =>
+                self.every((i) => i[idx] === ".") ? [i, i] : i,
+              ),
+          );
+    });
 
   let galaxyPositionMap: Map<number, [number, number]> = new Map();
 
@@ -30,7 +29,7 @@ const part1 = (rawInput: string) => {
 
     let galaxyPosition: [number, number] = [0, 0];
 
-    expandedInput.find((row, i) => {
+    input.find((row, i) => {
       const j = row.indexOf(point);
       if (j !== -1) galaxyPosition = [i, j];
     });
@@ -47,39 +46,37 @@ const part1 = (rawInput: string) => {
     return Math.abs(x1 - x2) + Math.abs(y1 - y2);
   };
 
-  let shortestPaths = 0;
+  const calculateAllPaths = (points: number) => {
+    return Array.from({ length: points }, (_, i) =>
+      Array.from({ length: points - i - 1 }, (_, j) =>
+        findShortestPath(i + 1, i + j + 2),
+      ),
+    )
+      .flat()
+      .reduce((acc, curr) => acc + curr, 0);
+  };
 
-  for (let i = 1; i <= galaxyCount; i++) {
-    for (let j = i + 1; j <= galaxyCount; j++) {
-      shortestPaths += findShortestPath(i, j);
-    }
-  }
-
-  return shortestPaths;
+  return calculateAllPaths(galaxyCount);
 };
 
 const part2 = (rawInput: string) => {
-  const input = parseInput(rawInput)
-    .split("\n")
-    .map((i) => i.split(""));
-
-  const expandedInput: (number | string)[][] = [];
   const expansionRate = 1000000;
   const EXPAND_ROW = "EXPAND_ROW";
   const EXPAND_COLUMN = "EXPAND_COLUMN";
   let galaxyCount = 0;
 
-  input.forEach((i) => {
-    !i.includes("#")
-      ? expandedInput.push([EXPAND_ROW])
-      : expandedInput.push(
-          i
+  const input: (number | string)[][] = parseInput(rawInput)
+    .split("\n")
+    .map((i) => i.split(""))
+    .map((i, _, self) => {
+      return !i.includes("#")
+        ? [EXPAND_ROW]
+        : i
             .map((i) => (i === "." ? i : ++galaxyCount))
             .flatMap((i, idx) =>
-              input.every((i) => i[idx] === ".") ? [i, EXPAND_COLUMN] : i,
-            ),
-        );
-  });
+              self.every((i) => i[idx] === ".") ? [i, EXPAND_COLUMN] : i,
+            );
+    });
 
   let galaxyPositionMap: Map<number, [number, number]> = new Map();
 
@@ -89,7 +86,7 @@ const part2 = (rawInput: string) => {
 
     let galaxyPosition: [number, number] = [0, 0];
 
-    expandedInput.find((row, i) => {
+    input.find((row, i) => {
       const j = row.indexOf(point);
       if (j !== -1) galaxyPosition = [i, j];
     });
@@ -100,7 +97,7 @@ const part2 = (rawInput: string) => {
   };
 
   const getExpandedRows = (start: number, end: number) => {
-    const expandedRowsFound = expandedInput
+    const expandedRowsFound = input
       .slice(start, end)
       .filter((i) => i[0] === EXPAND_ROW).length;
     return expandedRowsFound * expansionRate - expandedRowsFound;
@@ -112,17 +109,17 @@ const part2 = (rawInput: string) => {
   const getExpandedColumns = (row: number, p1: number, p2: number) => {
     const [start, end] = sortPoints(p1, p2);
 
-    const columnsFound = expandedInput[row]
+    const expandedColumnsFound = input[row]
       .slice(start, end)
       .filter((i) => i === EXPAND_COLUMN).length;
 
-    return columnsFound * expansionRate - columnsFound * 2;
+    return expandedColumnsFound * expansionRate - expandedColumnsFound * 2;
   };
 
   const findShortestPath = (p1: number, p2: number) => {
     const [x1, y1] = getGalaxyPosition(p1);
     const [x2, y2] = getGalaxyPosition(p2);
-    
+
     return (
       Math.abs(x1 - x2) +
       Math.abs(y1 - y2) +
@@ -131,15 +128,17 @@ const part2 = (rawInput: string) => {
     );
   };
 
-  let shortestPaths = 0;
+  const calculateAllPaths = (points: number) => {
+    return Array.from({ length: points }, (_, i) =>
+      Array.from({ length: points - i - 1 }, (_, j) =>
+        findShortestPath(i + 1, i + j + 2),
+      ),
+    )
+      .flat()
+      .reduce((acc, curr) => acc + curr, 0);
+  };
 
-  for (let i = 1; i <= galaxyCount; i++) {
-    for (let j = i + 1; j <= galaxyCount; j++) {
-      shortestPaths += findShortestPath(i, j);
-    }
-  }
-
-  return shortestPaths;
+  return calculateAllPaths(galaxyCount);
 };
 
 run({
